@@ -1,18 +1,51 @@
 import Filter from './components/Filter';
 import PersonForm from './components/personForm';
 import Persons from './components/Persons';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import personService  from './services/persons'
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ]);
+  const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
+
+  useEffect(() => {
+    personService
+      .GetAll()
+      .then(allPersons => {
+        setPersons(allPersons);
+      })
+      .catch(error => {
+          console.log('Error: ', error)
+      });
+  }, []);
+
+  const addPerson = () => {
+    const payload = {name: newName, number: newNumber};
+
+    personService
+      .Create(payload)
+      .then(response => {
+            setPersons([...persons, response]);
+        })
+        .catch(error => {
+            console.log('Error al añadir:', error);
+        });
+  };
+
+  const deletePerson = (id) => {
+    personService
+      .Delete(id)
+      .then(response => {
+            if(response.id === id){
+              setPersons(persons.filter(person => person.id !== id));
+            }
+        })
+        .catch(error => {
+            console.log('Error al eliminar:', error);
+        });
+  };
 
   return (
     <div>
@@ -22,11 +55,11 @@ const App = () => {
       
       <h3>Add a new</h3>
 
-      <PersonForm newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} persons={persons} setPersons={setPersons}/>
+      <PersonForm newName={newName} setNewName={setNewName} newNumber={newNumber} setNewNumber={setNewNumber} persons={persons} addPerson={addPerson}/>
 
       <h2>Numbers</h2>
       
-      <Persons persons={persons} filter={filter}/>
+      <Persons persons={persons} filter={filter} deletePerson={deletePerson}/>
 
     </div>
   )
