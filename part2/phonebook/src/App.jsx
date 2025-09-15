@@ -3,12 +3,14 @@ import PersonForm from './components/personForm';
 import Persons from './components/Persons';
 import { useState, useEffect } from 'react';
 import personService  from './services/persons'
+import Notification from './components/Notification';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
+  const [successMessage, setSuccessMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -28,6 +30,10 @@ const App = () => {
       .Create(payload)
       .then(response => {
             setPersons([...persons, response]);
+            setSuccessMessage( `Added ${response.name}`);
+            setTimeout(() => {
+              setSuccessMessage(null)
+            }, 5000)
         })
         .catch(error => {
             console.log('Error al añadir:', error);
@@ -49,8 +55,8 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      
+      <h1>Phonebook</h1>
+      <Notification message={successMessage}/>
       <Filter filter={filter} setFilter={setFilter}/>
       
       <h3>Add a new</h3>
