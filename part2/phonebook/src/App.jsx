@@ -10,7 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [filter, setFilter] = useState('');
-  const [successMessage, setSuccessMessage] = useState(null);
+  const [message, setMessage] = useState(null);
+  const [typeMessage, setTypeMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -30,23 +31,28 @@ const App = () => {
       .Create(payload)
       .then(response => {
             setPersons([...persons, response]);
-            setSuccessMessage( `Added ${response.name}`);
+            setMessage( `Added ${response.name}`);
+            setTypeMessage("success");
+            setNewName("");
+            setNewNumber("");
             setTimeout(() => {
-              setSuccessMessage(null)
+              setMessage(null)
             }, 5000)
         })
         .catch(error => {
-            console.log('Error al añadir:', error);
+            setMessage(error.response.data.error);
+            setTypeMessage("error");
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
         });
   };
 
   const deletePerson = (id) => {
     personService
       .Delete(id)
-      .then(response => {
-            if(response.id === id){
-              setPersons(persons.filter(person => person.id !== id));
-            }
+      .then(() => {
+          setPersons(persons.filter(person => person.id !== id));
         })
         .catch(error => {
             console.log('Error al eliminar:', error);
@@ -56,7 +62,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={successMessage}/>
+      <Notification message={message} typeMessage={typeMessage}/>
       <Filter filter={filter} setFilter={setFilter}/>
       
       <h3>Add a new</h3>
