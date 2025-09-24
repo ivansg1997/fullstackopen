@@ -4,6 +4,11 @@ const baseUrl = '/api/login'
 const login = async credentials => {
     const response = await axios.post(baseUrl, credentials)
     return response.data
-}
+};
 
-export default { login }
+const logout = () => {
+    window.localStorage.removeItem('loggedBlogappUser');
+    window.location.reload();
+};
+
+export default { login, logout }
