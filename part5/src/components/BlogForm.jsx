@@ -46,6 +46,7 @@ const BlogForm = ({blogs, setBlogs, setMessage, setTypeMessage, blogFormRef, onC
                 <div>
                     Title: 
                     <input
+                        id="title"
                         placeholder="enter blog title"
                         value={newTitle}
                         onChange={(e) => setNewTitle(e.target.value)}
@@ -54,6 +55,7 @@ const BlogForm = ({blogs, setBlogs, setMessage, setTypeMessage, blogFormRef, onC
                 <div>
                     Author: 
                     <input
+                        id="author"
                         placeholder="enter author name"
                         value={newAuthor}
                         onChange={(e) => setNewAuthor(e.target.value)}
@@ -62,12 +64,13 @@ const BlogForm = ({blogs, setBlogs, setMessage, setTypeMessage, blogFormRef, onC
                 <div>
                     Url: 
                     <input
+                        id="url"
                         placeholder="enter blog url"
                         value={newUrl}
                         onChange={(e) => setNewUrl(e.target.value)}
                     />
                 </div>
-                <button type="submit">create</button>
+                <button id="submit-blog" type="submit">create</button>
             </form>  
         </div>
     )

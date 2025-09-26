@@ -14,7 +14,7 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
 
   return (
 
-    <div style={blogStyle}>
+    <div className="blog" style={blogStyle}>
         {blog.title} 
         <button style={{marginLeft: 5}} onClick={(e) => {
             e.preventDefault();
@@ -25,7 +25,7 @@ const Blog = ({ blog, updateBlog, removeBlog, user }) => {
           <div>
             <div>{blog.url}</div>
             <div>
-              {blog.likes}
+              likes: {blog.likes}
               <button style={{marginLeft: 5}} onClick={(e) => {
                   e.preventDefault();
                   updateBlog(blog)

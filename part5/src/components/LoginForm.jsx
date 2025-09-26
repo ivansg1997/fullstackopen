@@ -42,6 +42,7 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
                 <div>
                     username
                     <input
+                        id='username'
                         type="text"
                         value={username}
                         name="Username"
@@ -52,6 +53,7 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
                 <div>
                     password
                     <input
+                        id='password'
                         type="password"
                         value={password}
                         name="Password"
@@ -59,7 +61,7 @@ const LoginForm = ({ setUser, setMessage, setTypeMessage }) => {
                         required
                     />
                 </div>
-                <button type="submit">login</button>
+                <button id="login-button" type="submit">login</button>
             </form>    
             <br/>
         </div>
